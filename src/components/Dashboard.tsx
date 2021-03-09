@@ -21,15 +21,17 @@ function Dashboard({ tickets }) {
  * @param tickets : hashmap of tikects
  * @returns Array of tickets
  */
-function mapStateToProps({ tickets, pagination }) {
+export function mapStateToProps({ tickets, pagination }) {
   let mappedTickets = []
-  let pageNumber = pagination.recordsParsed || 0
+  let pageNumber = pagination.recordsParsed || 1
+
   if (tickets) {
     let ticketIds = Object.keys(tickets).slice(
-      pageNumber,
+      pageNumber - 1,
       Config.recordsPerPage + pageNumber
     )
-    if (tickets && ticketIds.length > 1) {
+
+    if (tickets && ticketIds.length > 0) {
       mappedTickets = ticketIds.map((id) => tickets[id])
     }
   }

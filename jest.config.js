@@ -3,7 +3,11 @@ const { defaults } = require("jest-config")
 
 module.exports = {
   roots: [path.resolve(__dirname, "./src")],
-  displayName: "local",
+  transform: {
+    "^.+\\.(ts|tsx|js|jsx)$": "ts-jest",
+  },
   moduleFileExtensions: [...defaults.moduleFileExtensions, "ts", "tsx"],
-  testURL: "http://localhost",
+  collectCoverage: true,
+  clearMocks: true,
+  coverageDirectory: "coverage",
 }

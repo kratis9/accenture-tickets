@@ -27,7 +27,6 @@ async function client(endpoint: string, customConfig = {}): Promise<{}> {
   ticketReponse.data = data
 
   if (response.ok) {
-    console.log(data)
     return ticketReponse
   } else {
     if (data.error === "unauthorized") {

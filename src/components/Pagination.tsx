@@ -29,6 +29,8 @@ const useStyles = makeStyles({
 const Pagination = ({ totalRecords, recordsParsed, onSetPage }) => {
   const classes = useStyles()
   const totalPages = Math.ceil(totalRecords / Config.recordsPerPage)
+  const currentPage = Math.ceil(recordsParsed / Config.recordsPerPage)
+
   return (
     <div className={classes.root}>
       <ul className={classes.pagination}>
@@ -36,24 +38,32 @@ const Pagination = ({ totalRecords, recordsParsed, onSetPage }) => {
           <Button
             data-testid="BACK"
             className={classes.button}
-            onClick={() => onSetPage(recordsParsed - Config.recordsPerPage)}
-            disabled = {(recordsParsed / Config.recordsPerPage) === 1}
+            onClick={() => {
+              onSetPage(
+                recordsParsed > 1 ? recordsParsed - Config.recordsPerPage : 1
+              )
+            }}
+            disabled={currentPage === 1}
           >
             BACK
           </Button>
         </li>
 
         <li className={classes.status}>
-          <span></span>
-          <Typography className={classes.statusText} color="textSecondary">
-            Page {recordsParsed / Config.recordsPerPage} of {totalPages}
+          <Typography
+            data-testid="status"
+            className={classes.statusText}
+            color="textSecondary"
+          >
+            Page {currentPage} of {totalPages}
           </Typography>
         </li>
         <li className="page-item">
           <Button
+            data-testid="NEXT"
             className={classes.button}
             onClick={() => onSetPage(recordsParsed + Config.recordsPerPage)}
-            disabled ={(recordsParsed / Config.recordsPerPage)=== totalPages}
+            disabled={currentPage === totalPages}
           >
             NEXT
           </Button>
@@ -66,7 +76,7 @@ const Pagination = ({ totalRecords, recordsParsed, onSetPage }) => {
 const mapStateToProps = ({ pagination }) => {
   return {
     totalRecords: pagination.totalRecords,
-    recordsParsed: pagination.recordsParsed || 0,
+    recordsParsed: pagination.recordsParsed || 1,
   }
 }
 
